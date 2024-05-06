@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +34,9 @@ public class Productos extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // Se obtiene los controles del xml y se castea
+
+
+        // Se obtiene los controles del activity_productos.xml y se castea
         lstproductos = (ListView) findViewById(R.id.lstproductos);
         txtProducto = (EditText) findViewById(R.id.txtProducto);
         txtMarca = (EditText) findViewById(R.id.txtMarca);
@@ -44,7 +47,6 @@ public class Productos extends AppCompatActivity {
         // Se Inicializa la lista
         lista = new ArrayList<>();
 
-        mostrarProductos();
         // Se añade el evento click al botón Agregar
         btnAgregar.setOnClickListener(v -> {
             // Se obtiene los valores de los EditText
@@ -53,35 +55,47 @@ public class Productos extends AppCompatActivity {
             String codigo = txtCodigo.getText().toString();
             String precio = txtPrecio.getText().toString();
 
-            // Se declara e inicializa un  hashmap map para el nuevo producto
-            HashMap<String, String> map = new HashMap<>();
-            map.put("producto", producto);
-            map.put("marca", marca);
-            map.put("codigo", codigo);
-            map.put("precio", precio);
+            // se valida que se ingrese datos en todos los campos
+            if (!producto.isEmpty() && !marca.isEmpty() && !codigo.isEmpty()
+                && !precio.isEmpty()) {
 
-            // Se agrega el nuevo producto al ArrayList lista
-            lista.add(map);
+                // Se declara e inicializa un  hashmap map para el nuevo producto
+                HashMap<String, String> map = new HashMap<>();
+                map.put("producto", producto);
+                map.put("marca", marca);
+                map.put("codigo", codigo);
+                map.put("precio", precio);
 
-            // Limpiar los EditText después de agregar el producto
-            txtProducto.setText("");
-            txtMarca.setText("");
-            txtCodigo.setText("");
-            txtPrecio.setText("");
-            txtProducto.requestFocus();
+                // Se agrega a la lista
+                lista.add(map);
 
-            // Se actualiza el ListView
-            mostrarProductos();
+                // Limpiar los EditText después de agregar el producto
+                txtProducto.setText("");
+                txtMarca.setText("");
+                txtCodigo.setText("");
+                txtPrecio.setText("");
+                // Regresa el cursor al primer campo
+                txtProducto.requestFocus();
+
+                // Se actualiza el ListView
+                mostrarProductos();
+
+                } else {
+                   Toast.makeText(this, "Complete el ingreso de datos",
+                           Toast.LENGTH_SHORT).show();
+                }
         });
     }
 
-    // Método para mostrar la lista de productos
+    // Se crea el adaptador e instanciarlo,
+    // Le pasamos los parámetros necesarios
     public void mostrarProductos() {
         ListAdapter adaptador = new SimpleAdapter(this,
                 lista,
                 R.layout.activity_producto,
                 new String[]{"producto", "marca", "codigo", "precio"},
                 new int[]{R.id.txtProducto, R.id.txtMarca, R.id.txtCodigo, R.id.txtPrecio});
+        // Poblamos el ListView con el adaptador
         lstproductos.setAdapter(adaptador);
     }
 }
