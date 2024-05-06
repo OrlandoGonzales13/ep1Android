@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Servicios</string>
+    <string-array name="cargos_array">
+        <item>Administrador</item>
+        <item>Contador</item>
+        <item>Vendedor</item>
+        <item>Recepcionista</item>
+    </string-array>
+
+    <string-array name="afiliacion_array">
+        <item>AFP</item>
+        <item>ONP</item>
+    </string-array>
+
 </resources>
