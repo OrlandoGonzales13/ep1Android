@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.servicios.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,5 +58,7 @@ public class Equipos extends AppCompatActivity {
                 new int[]{R.id.txtEquipo, R.id.txtPais, R.id.txtEstadio, R.id.txtCapacidad, R.id.imgEscudo}); // Ahora también incluimos el ImageView
 
         lstEquipos.setAdapter(adaptador);
+
+
     }
 }
