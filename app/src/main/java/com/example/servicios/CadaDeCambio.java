@@ -37,26 +37,31 @@ public class CadaDeCambio extends AppCompatActivity {
                     double cantidadSoles = Double.parseDouble(cantidadSolesStr);
                     double tasaDolar = 3.73;
                     double tasaEuro = 4.01;
-                    double cantidadDolares = cantidadSoles * tasaDolar;
-                    double cantidadEuros = cantidadSoles * tasaEuro;
+                    double cantidadDolares = cantidadSoles / tasaDolar;
+                    double cantidadEuros = cantidadSoles / tasaEuro;
+
+                    // Redondear los resultados a dos decimales
+                    cantidadDolares = Math.round(cantidadDolares * 100.0) / 100.0;
+                    cantidadEuros = Math.round(cantidadEuros * 100.0) / 100.0;
 
                     // Mostrar los resultados en los EditText correspondientes
-                    txtDolares.setText(String.valueOf(cantidadDolares));
-                    txtEuros.setText(String.valueOf(cantidadEuros));
+                    txtDolares.setText(String.format("%.2f", cantidadDolares));
+                    txtEuros.setText(String.format("%.2f", cantidadEuros));
                 } else {
                     // Mostrar un mensaje de advertencia si no se ingresa ninguna cantidad
                     Toast.makeText(CadaDeCambio.this, "Por favor, ingrese una cantidad en soles.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
         // Configurar el evento de clic para el botón "Limpiar"
         btnLimpiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Limpiar los EditText estableciendo su texto como una cadena vacía
+                txtSoles.setText("");
                 txtDolares.setText("");
                 txtEuros.setText("");
-                txtSoles.setText("");
             }
         });
     }
