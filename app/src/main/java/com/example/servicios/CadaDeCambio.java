@@ -1,24 +1,63 @@
 package com.example.servicios;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import android.view.View;
+import android.content.Intent;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class CadaDeCambio extends AppCompatActivity {
+
+    EditText txtSoles, txtDolares, txtEuros;
+    Button btnConvertir, btnLimpiar; // Agregamos la declaración del botón btnLimpiar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cada_de_cambio);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        // Obtener referencias a los elementos del layout
+        txtSoles = findViewById(R.id.txtSoles);
+        txtDolares = findViewById(R.id.txtDolares);
+        txtEuros = findViewById(R.id.txtEuros);
+        btnConvertir = findViewById(R.id.btnConvertir);
+        btnLimpiar = findViewById(R.id.btnLimpiar); // Inicializamos el botón btnLimpiar
+
+        // Configurar el evento de clic para el botón de conversión
+        btnConvertir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtener la cantidad en soles ingresada por el usuario
+                String cantidadSolesStr = txtSoles.getText().toString();
+                if (!cantidadSolesStr.isEmpty()) {
+                    // Convertir la cantidad de soles a dólares y euros
+                    double cantidadSoles = Double.parseDouble(cantidadSolesStr);
+                    double tasaDolar = 3.73;
+                    double tasaEuro = 4.01;
+                    double cantidadDolares = cantidadSoles * tasaDolar;
+                    double cantidadEuros = cantidadSoles * tasaEuro;
+
+                    // Mostrar los resultados en los EditText correspondientes
+                    txtDolares.setText(String.valueOf(cantidadDolares));
+                    txtEuros.setText(String.valueOf(cantidadEuros));
+                } else {
+                    // Mostrar un mensaje de advertencia si no se ingresa ninguna cantidad
+                    Toast.makeText(CadaDeCambio.this, "Por favor, ingrese una cantidad en soles.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        // Configurar el evento de clic para el botón "Limpiar"
+        btnLimpiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Limpiar los EditText estableciendo su texto como una cadena vacía
+                txtDolares.setText("");
+                txtEuros.setText("");
+                txtSoles.setText("");
+            }
         });
     }
 }
